@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Models\Loan;
 use App\Validators\LoanValidator;
 use Illuminate\Http\JsonResponse;
@@ -29,24 +30,16 @@ class LoanController extends Controller
 
         $loan = Loan::create($validatedData);
 
-        return response()->json([
-            'loan' => $loan
-        ]);
+        return response()->json(['loan' => $loan]);
     }
 
     public function show($id): JsonResponse
     {
         $loan = Loan::find($id);
 
-        if (!$loan) {
-            return response()->json([
-                'message' => 'Loan not found'
-            ], 404);
-        }
-
-        return response()->json([
-            'loan' => $loan
-        ]);
+        return $loan ?
+            response()->json(['loan' => $loan]) :
+            response()->json(['message' => 'Not found'], 404);
     }
 
     public function update(Request $request, $id): JsonResponse
@@ -54,9 +47,7 @@ class LoanController extends Controller
         $loan = Loan::find($id);
 
         if (!$loan) {
-            return response()->json([
-                'message' => 'Loan not found'
-            ], 404);
+            return response()->json(['message' => 'Not found'], 404);
         }
 
         try {
@@ -69,9 +60,7 @@ class LoanController extends Controller
 
         $loan->update($validatedData);
 
-        return response()->json([
-                'loan' => $loan
-            ]);
+        return response()->json(['loan' => $loan]);
     }
 
     public function destroy($id): JsonResponse
@@ -79,15 +68,11 @@ class LoanController extends Controller
         $loan = Loan::find($id);
 
         if (!$loan) {
-            return response()->json([
-                'message' => 'Loan not found'
-            ], 404);
+            return response()->json(['message' => 'Not found'], 404);
         }
 
         $loan->delete();
 
-        return response()->json([
-            'message' => 'Loan deleted successfully'
-        ]);
+        return response()->json(['message' => 'Deleted successfully']);
     }
 }

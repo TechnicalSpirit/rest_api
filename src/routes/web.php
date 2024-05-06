@@ -17,8 +17,10 @@ $router->get('/', function () {
     echo "It’s good that this page appeared, but this application is needed for REST API";
 });
 
-$router->get('/loans', 'LoanController@index');
-$router->post('/loans', 'LoanController@create');
-$router->get('/loans/{id}', 'LoanController@show');
-$router->put('/loans/{id}', 'LoanController@update');
-$router->delete('/loans/{id}', 'LoanController@destroy');
+$router->group(['prefix' => 'loans', 'namespace' => 'API'], function () use ($router) {
+    $router->get('/', 'LoanController@index');
+    $router->post('/', 'LoanController@create');
+    $router->get('/{id}', 'LoanController@show');
+    $router->put('/{id}', 'LoanController@update');
+    $router->delete('/{id}', 'LoanController@destroy');
+});

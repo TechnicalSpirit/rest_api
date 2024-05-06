@@ -213,10 +213,10 @@ class LoanTest extends TestCase
 
     public function testShowItemNoTInTheTable()
     {
-        $this->get("/loans/-1")
+        $this->get("/loans/the_number")
             ->seeStatusCode(404)
             ->seeJson([
-                'message' => 'Loan not found'
+                'message' => 'Not found'
             ]);
     }
 
@@ -280,12 +280,12 @@ class LoanTest extends TestCase
 
     public function testUpdateNoItemNoTInTheTable()
     {
-        $this->put("/loans/-1", [
+        $this->put("/loans/the_number", [
             'amount' => 1200,
         ])
             ->seeStatusCode(404)
             ->seeJson([
-                'message' => 'Loan not found'
+                'message' => 'Not found'
             ]);
     }
     public function testDestroySuccess()
@@ -295,16 +295,16 @@ class LoanTest extends TestCase
         $this->delete("/loans/{$loan->id}")
             ->seeStatusCode(200)
             ->seeJson([
-                'message' => 'Loan deleted successfully'
+                'message' => 'Deleted successfully'
             ]);
     }
 
     public function testDestroyItemNoTInTheTable()
     {
-        $this->delete("/loans/-1")
+        $this->delete("/loans/the_number")
             ->seeStatusCode(404)
             ->seeJson([
-                'message' => 'Loan not found'
+                'message' => 'Not found'
             ]);
     }
 }
