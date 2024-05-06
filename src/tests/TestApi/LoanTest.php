@@ -7,7 +7,7 @@ use Tests\TestCase;
 
 class LoanTest extends TestCase
 {
-    public function testGetAll()
+    public function testGetAllLoans()
     {
         $currentLoanData = $this->get('/loans')
             ->seeStatusCode(200)
@@ -24,12 +24,12 @@ class LoanTest extends TestCase
                 ]);
 
         $expectedLoanCount = count(Loan::all());
-        $actualLoanCount = count($currentLoanData->response->json('loans' ));
+        $actualLoanCount = count($currentLoanData->response->json('loans'));
 
         $this->assertEquals($expectedLoanCount, $actualLoanCount);
     }
 
-    public function testGetByFilters()
+    public function testGetLoansByAmountAndCreatedAtFilters()
     {
         Loan::factory()->create([
             'amount' => 1000,
@@ -60,7 +60,77 @@ class LoanTest extends TestCase
             ->get();
 
         $expectedLoanCount = count($expectedLoans);
-        $actualLoanCount = count($currentLoanData->response->json('loans' ));
+        $actualLoanCount = count($currentLoanData->response->json('loans'));
+
+        $this->assertEquals($expectedLoanCount, $actualLoanCount);
+    }
+
+    public function testGetLoansByAmountFilter()
+    {
+        Loan::factory()->create([
+            'amount' => 1000,
+            'created_at' => '2022-01-01'
+        ]);
+        Loan::factory()->create([
+            'amount' => 2000,
+            'created_at' => '2022-01-02'
+        ]);
+
+        $currentLoanData = $this->get('/loans?amount=1000')
+            ->seeStatusCode(200)
+            ->seeJsonStructure(['loans' => [
+                '*' => [
+                    'id',
+                    'amount',
+                    'duration',
+                    'interest_rate',
+                    'created_at',
+                    'updated_at'
+                ]
+            ]
+            ]);
+
+        $expectedLoans = Loan::query()
+            ->where('amount', 1000)
+            ->get();
+
+        $expectedLoanCount = count($expectedLoans);
+        $actualLoanCount = count($currentLoanData->response->json('loans'));
+
+        $this->assertEquals($expectedLoanCount, $actualLoanCount);
+    }
+
+    public function testGetLoansByCreatedAtFilter()
+    {
+        Loan::factory()->create([
+            'amount' => 1000,
+            'created_at' => '2022-01-01'
+        ]);
+        Loan::factory()->create([
+            'amount' => 2000,
+            'created_at' => '2022-01-02'
+        ]);
+
+        $currentLoanData = $this->get('/loans?created_at=2022-01-01')
+            ->seeStatusCode(200)
+            ->seeJsonStructure(['loans' => [
+                '*' => [
+                    'id',
+                    'amount',
+                    'duration',
+                    'interest_rate',
+                    'created_at',
+                    'updated_at'
+                ]
+            ]
+            ]);
+
+        $expectedLoans = Loan::query()
+            ->whereDate('created_at', '2022-01-01')
+            ->get();
+
+        $expectedLoanCount = count($expectedLoans);
+        $actualLoanCount = count($currentLoanData->response->json('loans'));
 
         $this->assertEquals($expectedLoanCount, $actualLoanCount);
     }
