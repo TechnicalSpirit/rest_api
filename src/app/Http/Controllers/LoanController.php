@@ -12,19 +12,8 @@ class LoanController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
-        $query = Loan::query();
-
-        if ($request->has('created_at')) {
-            $query->whereDate('created_at', $request->created_at);
-        }
-        if ($request->has('amount')) {
-            $query->where('amount', $request->amount);
-        }
-
-        $loans = $query->get();
-
         return response()->json([
-            'loans' => $loans
+            'loans' => Loan::getByFilters($request->all())
         ]);
     }
 
