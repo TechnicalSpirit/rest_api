@@ -198,7 +198,7 @@ class LoanTest extends TestCase
     {
         $loan = Loan::factory()->create();
 
-        $this->get("/loans/{$loan->id}")
+        $currentLoanData = $this->get("/loans/{$loan->id}")
             ->seeStatusCode(200)
             ->seeJsonStructure(['loan' => [
                     'id',
@@ -209,6 +209,8 @@ class LoanTest extends TestCase
                     'updated_at'
                 ]
             ]);
+
+        $this->assertEquals($loan->toArray(), $currentLoanData->response->json('loan'));
     }
 
     public function testShowItemNoTInTheTable()
@@ -224,7 +226,7 @@ class LoanTest extends TestCase
     {
         $loan = Loan::factory()->create();
 
-        $this->put("/loans/{$loan->id}", [
+        $currentLoanData = $this->put("/loans/{$loan->id}", [
                 'amount' => 1200,
             ])
             ->seeStatusCode(200)
@@ -237,6 +239,9 @@ class LoanTest extends TestCase
                     'updated_at'
                 ]
             ]);
+
+        $expectedLoad = Loan::find($loan->id);
+        $this->assertEquals($expectedLoad->toArray(), $currentLoanData->response->json('loan'));
     }
 
     public function testUpdateInvalidAmount()
