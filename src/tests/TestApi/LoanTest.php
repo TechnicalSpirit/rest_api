@@ -54,10 +54,10 @@ class LoanTest extends TestCase
                 ]
             ]);
 
-        $expectedLoans = Loan::query()
-            ->whereDate('created_at', '2022-01-01')
-            ->where('amount', 1000)
-            ->get();
+        $expectedLoans = Loan::getByFilters([
+            'created_at' =>'2022-01-01',
+            'amount'=> 1000
+        ]);
 
         $expectedLoanCount = count($expectedLoans);
         $actualLoanCount = count($currentLoanData->response->json('loans'));
@@ -90,9 +90,9 @@ class LoanTest extends TestCase
             ]
             ]);
 
-        $expectedLoans = Loan::query()
-            ->where('amount', 1000)
-            ->get();
+        $expectedLoans = Loan::getByFilters([
+            'amount'=> 1000
+        ]);
 
         $expectedLoanCount = count($expectedLoans);
         $actualLoanCount = count($currentLoanData->response->json('loans'));
@@ -114,20 +114,21 @@ class LoanTest extends TestCase
         $currentLoanData = $this->get('/loans?created_at=2022-01-01')
             ->seeStatusCode(200)
             ->seeJsonStructure(['loans' => [
-                '*' => [
-                    'id',
-                    'amount',
-                    'duration',
-                    'interest_rate',
-                    'created_at',
-                    'updated_at'
+                    '*' => [
+                        'id',
+                        'amount',
+                        'duration',
+                        'interest_rate',
+                        'created_at',
+                        'updated_at'
+                    ]
                 ]
-            ]
             ]);
 
-        $expectedLoans = Loan::query()
-            ->whereDate('created_at', '2022-01-01')
-            ->get();
+
+        $expectedLoans = Loan::getByFilters([
+            'created_at' =>'2022-01-01',
+        ]);
 
         $expectedLoanCount = count($expectedLoans);
         $actualLoanCount = count($currentLoanData->response->json('loans'));
