@@ -94,6 +94,12 @@ $app->configure('app');
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
+//$app->register(Sentry\Laravel\ServiceProvider::class);
+//
+//$app->configure('sentry');
+//$app['config']->set('sentry.dsn', env('SENTRY_LARAVEL_DSN'));
+//$app['config']->set('sentry.environment', env('SENTRY_LARAVEL_ENVIRONMENT'));
+
 
 /*
 |--------------------------------------------------------------------------

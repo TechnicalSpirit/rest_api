@@ -15,5 +15,4 @@ class Loan extends Model
         'duration',
         'interest_rate'
     ];
-
 }
