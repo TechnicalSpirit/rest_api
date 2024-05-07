@@ -202,3 +202,21 @@ docker-compose run php composer start-test
 ```bash
 docker-compose run php composer lint-analysis
 ```
+
+## Как подключить Sentry ?
+
+Нужно заполнить эту переменную в файле srv/.env
+
+```json
+SENTRY_LARAVEL_DSN=<твой персональный ключ от Sentry для данного приложения>
+```
+
+Дальше нужно протестировать соединение
+
+```bash
+docker-compose run artisan sentry:test
+```
+
+После этого ты сможешь увидеть в Sentry > на левом меню > "Issues" > в ошибках "Exception" надпись "This is a test exception sent from the Sentry Laravel SDK."
+
+И всё, Sentry ты подключил Sentry
