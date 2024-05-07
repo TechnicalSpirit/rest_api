@@ -219,4 +219,4 @@ docker-compose run artisan sentry:test
 
 После этого ты сможешь увидеть в Sentry > на левом меню > "Issues" > в ошибках "Exception" надпись "This is a test exception sent from the Sentry Laravel SDK."
 
-И всё, Sentry ты подключил Sentry
+И всё, ты подключил Sentry
