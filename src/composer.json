@@ -31,7 +31,7 @@
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
-        "lint-analysis": "phpcs --standard=phpcs.xml app bootstrap database tests routes --report=diff",
+        "lint-analysis": "phpcs --standard=phpcs.xml app bootstrap database tests routes ",
         "start-test": "./vendor/bin/phpunit"
     },
     "config": {
