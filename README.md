@@ -47,7 +47,7 @@ docker-compose run artisan migrate
 
 http://localhost/loans
 
-```json
+```
 {
   "loans": [
     {
@@ -75,7 +75,7 @@ http://localhost/loans
 
 http://localhost/loans?created_at=2022-01-01
 
-```json
+```
 {
   "loans": [
     {
@@ -95,7 +95,7 @@ http://localhost/loans?created_at=2022-01-01
 
 http://localhost/loans?amount=1000
 
-```json
+```
 {
   "loans": [
     {
@@ -207,7 +207,7 @@ docker-compose run php composer lint-analysis
 
 Нужно заполнить эту переменную в файле srv/.env
 
-```json
+```
 SENTRY_LARAVEL_DSN=<твой персональный ключ от Sentry для данного приложения>
 ```
 
