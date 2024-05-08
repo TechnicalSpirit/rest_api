@@ -195,7 +195,7 @@ curl -X DELETE http://localhost/loans/1
 docker-compose run php composer start-test
 ```
 
-## Как запустить проверку литом ?
+## Как запустить проверку линтом ?
 
 В качестве линтера я использовал php_codesniffer, вот так его можно запустить
 
